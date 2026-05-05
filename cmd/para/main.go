@@ -31,8 +31,10 @@ func main() {
 	fs := http.FileServer(http.Dir("./static"))
 	r.Handle("/static/*", http.StripPrefix("/static/", fs))
 
-	items := web.NewItems(s)
-	items.Routes(r)
+	web.NewItems(s).Routes(r)
+	web.NewDaily(s).Routes(r)
+	web.NewSearch(s).Routes(r)
+	web.NewReview(s).Routes(r)
 
 	addr := ":8080"
 	log.Printf("listening on %s", addr)

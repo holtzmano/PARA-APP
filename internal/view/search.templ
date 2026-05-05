@@ -1,0 +1,55 @@
+package view
+
+import (
+	"fmt"
+
+	"para/internal/store"
+)
+
+templ SearchPage(query string, results []store.SearchResult) {
+	@Layout("Search") {
+		<h1>Search</h1>
+		<form method="get" action="/search" class="search-form" role="search">
+			<input type="search" name="q" value={ query } placeholder="Search items and notes..." autofocus/>
+			<button type="submit">Search</button>
+		</form>
+		if query == "" {
+			<p class="muted">Enter a query to search.</p>
+		} else if len(results) == 0 {
+			<p class="muted">No results for "{ query }".</p>
+		} else {
+			<p class="muted">{ fmt.Sprintf("%d result(s) for", len(results)) } "{ query }"</p>
+			for _, r := range results {
+				@searchHit(r)
+			}
+		}
+	}
+}
+
+templ searchHit(r store.SearchResult) {
+	<article class="search-hit">
+		<h2>
+			<a href={ templ.SafeURL(fmt.Sprintf("/items/%d", r.Item.ID)) }>{ r.Item.Title }</a>
+		</h2>
+		<p class="muted hit-meta">
+			<span>{ r.Item.Type }</span>
+			<span> · { r.Item.Status }</span>
+			if r.Item.IsArchived() {
+				<span> · archived</span>
+			}
+		</p>
+		if r.ItemSnippet != "" {
+			<p class="snippet">@templ.Raw(r.ItemSnippet)</p>
+		}
+		if len(r.Notes) > 0 {
+			<ul class="note-hits">
+				for _, n := range r.Notes {
+					<li>
+						<time>{ FormatLocalDate(n.CreatedAt) }</time>
+						<span>{ n.BodyMD }</span>
+					</li>
+				}
+			</ul>
+		}
+	</article>
+}

@@ -13,12 +13,15 @@ templ Layout(title string) {
 		<body>
 			<nav>
 				<a href="/" class="brand">para</a>
-				<a href="/today">Today</a>
+				<a href="/daily">Today</a>
 				<a href="/items?type=project">Projects</a>
 				<a href="/items?type=area">Areas</a>
 				<a href="/items?type=resource">Resources</a>
 				<a href="/review">Review</a>
 				<a href="/search">Search</a>
+				<form action="/search" method="get" class="nav-search" role="search">
+					<input type="search" name="q" placeholder="Search…" aria-label="Search"/>
+				</form>
 			</nav>
 			<main>
 				{ children... }

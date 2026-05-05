@@ -1,0 +1,41 @@
+package view
+
+import (
+	"fmt"
+
+	"para/internal/store"
+)
+
+templ Daily(it store.Item, notes []store.Note, date, prev, next string) {
+	@Layout("Daily / " + date) {
+		<header class="daily-nav">
+			<a href={ templ.SafeURL("/daily/" + prev) }>← Yesterday</a>
+			<h1>Daily / { date }</h1>
+			<a href={ templ.SafeURL("/daily/" + next) }>Tomorrow →</a>
+		</header>
+		<form
+			class="quick-capture"
+			hx-post={ fmt.Sprintf("/daily/%s/notes", date) }
+			hx-target="#notes-list"
+			hx-swap="afterbegin"
+			hx-on::after-request="if(event.detail.successful){this.reset();this.querySelector('textarea').focus();}">
+			<textarea name="body_md" rows="3" required placeholder="Quick capture..." autofocus></textarea>
+			<button type="submit">Add note</button>
+		</form>
+		<ul id="notes-list" class="notes-list">
+			for _, n := range notes {
+				@NoteItem(n)
+			}
+		</ul>
+		<footer class="muted daily-footer">
+			<a href={ templ.SafeURL(fmt.Sprintf("/items/%d", it.ID)) }>open as item #{ fmt.Sprintf("%d", it.ID) }</a>
+		</footer>
+	}
+}
+
+templ NoteItem(n store.Note) {
+	<li class="note">
+		<time>{ FormatLocalTime(n.CreatedAt) }</time>
+		<pre class="note-body">{ n.BodyMD }</pre>
+	</li>
+}

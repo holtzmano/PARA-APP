@@ -26,7 +26,22 @@
       "Bash(curl -s -i -X POST http://localhost:8080/items/2/archive)",
       "Bash(curl -s -i -o /dev/null -w \"%{http_code}\\\\n\" -X POST http://localhost:8080/items/999/archive)",
       "Bash(curl -s -o /dev/null -w \"%{http_code} %{size_download} bytes\\\\n\" http://localhost:8080/static/styles.css)",
-      "Bash(curl -s -o /dev/null -w \"%{http_code} %{size_download} bytes\\\\n\" http://localhost:8080/static/htmx.min.js)"
+      "Bash(curl -s -o /dev/null -w \"%{http_code} %{size_download} bytes\\\\n\" http://localhost:8080/static/htmx.min.js)",
+      "Bash(curl -s -i -o /dev/null -w \"HTTP %{http_code} → %{redirect_url}\\\\n\" http://localhost:8080/daily)",
+      "Bash(curl -s http://localhost:8080/daily/2026-05-05)",
+      "Bash(curl -s -X POST -H \"HX-Request: true\" -d 'body_md=first capture of the day' http://localhost:8080/daily/2026-05-05/notes)",
+      "Bash(curl -s -X POST -H \"HX-Request: true\" -d 'body_md=second thought' http://localhost:8080/daily/2026-05-05/notes)",
+      "Bash(curl -s -i -X POST -H \"HX-Request: true\" -d 'body_md=' http://localhost:8080/daily/2026-05-05/notes)",
+      "Bash(curl -s -o /dev/null -w \"HTTP %{http_code}\\\\n\" http://localhost:8080/daily/not-a-date)",
+      "Bash(curl -s \"http://localhost:8080/search\")",
+      "Bash(curl -s -i -X POST -d 'type=project&title=Site launch&status=active&content_md=plan to launch the site by june' http://localhost:8080/items)",
+      "Bash(curl -s \"http://localhost:8080/search?q=launch\")",
+      "Bash(curl -s \"http://localhost:8080/search?q=capture\")",
+      "Bash(curl -s \"http://localhost:8080/search?q=nonexistent\")",
+      "Bash(curl -s \"http://localhost:8080/search?q=AND+OR+NOT\")",
+      "Bash(curl -s -X POST -d 'type=resource&title=Notes&status=active&content_md=<script>alert\\(1\\)</script> harmless content' http://localhost:8080/items)",
+      "Bash(curl -s \"http://localhost:8080/search?q=harmless\")",
+      "Bash(curl -s http://localhost:8080/review)"
     ]
   }
 }

@@ -1,0 +1,39 @@
+package view
+
+import (
+	"fmt"
+
+	"para/internal/store"
+)
+
+templ Review(stale, dueSoon, someday, recent []store.Item) {
+	@Layout("Review") {
+		<h1>Weekly review</h1>
+		@reviewSection("Stale active projects", "Active projects not updated in 14+ days.", stale)
+		@reviewSection("Due soon", "Active projects due within 14 days.", dueSoon)
+		@reviewSection("Someday / maybe", "Items parked for later.", someday)
+		@reviewSection("Recently archived", "Archived in the last 7 days.", recent)
+	}
+}
+
+templ reviewSection(heading, blurb string, items []store.Item) {
+	<section class="review-section">
+		<h2>{ heading }</h2>
+		<p class="muted">{ blurb }</p>
+		if len(items) == 0 {
+			<p class="muted">Nothing here.</p>
+		} else {
+			<ul class="review-list">
+				for _, it := range items {
+					<li>
+						<a href={ templ.SafeURL(fmt.Sprintf("/items/%d", it.ID)) }>{ it.Title }</a>
+						if it.DueDate.Valid {
+							<span class="muted"> · due { it.DueDate.String }</span>
+						}
+						<span class="muted"> · updated { FormatLocalDate(it.UpdatedAt) }</span>
+					</li>
+				}
+			</ul>
+		}
+	</section>
+}

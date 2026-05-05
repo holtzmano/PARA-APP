@@ -162,3 +162,133 @@ button:hover, .button-link:hover {
     flex-wrap: wrap;
     gap: 1.25rem;
 }
+
+/* Nav search */
+.nav-search { margin-left: auto; }
+.nav-search input[type="search"] {
+    width: 14rem;
+    padding: 0.35rem 0.6rem;
+    font-size: 0.9rem;
+}
+
+/* Daily page */
+.daily-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+.daily-nav h1 { margin: 0; font-size: 1.4rem; }
+
+.quick-capture {
+    display: grid;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+.quick-capture textarea { min-height: 5rem; }
+.quick-capture button { justify-self: start; }
+
+.notes-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 0.75rem;
+}
+.note {
+    display: grid;
+    grid-template-columns: 4rem 1fr;
+    gap: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+.note time {
+    color: var(--fg-muted);
+    font-size: 0.85rem;
+    font-variant-numeric: tabular-nums;
+    padding-top: 0.15rem;
+}
+.note-body {
+    margin: 0;
+    white-space: pre-wrap;
+    word-break: break-word;
+    font-family: inherit;
+    font-size: 0.95rem;
+}
+
+.daily-footer {
+    margin-top: 2rem;
+    font-size: 0.85rem;
+    text-align: right;
+}
+
+/* Search */
+.search-form {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+.search-form input[type="search"] { flex: 1; }
+
+.search-hit {
+    margin: 1.25rem 0 1.5rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px dashed var(--border);
+}
+.search-hit h2 {
+    margin: 0 0 0.25rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+.hit-meta { margin: 0 0 0.5rem; font-size: 0.85rem; }
+.snippet {
+    margin: 0.25rem 0;
+    color: var(--fg-muted);
+    font-size: 0.95rem;
+}
+.snippet mark {
+    background: #fff3a5;
+    color: var(--fg);
+    padding: 0 0.1em;
+    border-radius: 2px;
+}
+.note-hits {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0 0;
+    display: grid;
+    gap: 0.4rem;
+    font-size: 0.9rem;
+}
+.note-hits li {
+    display: grid;
+    grid-template-columns: 6rem 1fr;
+    gap: 0.5rem;
+    padding-left: 0.5rem;
+    border-left: 2px solid var(--border);
+}
+.note-hits time { color: var(--fg-muted); font-variant-numeric: tabular-nums; }
+
+/* Review */
+.review-section {
+    margin: 1.5rem 0 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+}
+.review-section h2 {
+    margin: 0 0 0.25rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+.review-section p.muted { margin: 0 0 0.75rem; font-size: 0.9rem; }
+.review-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 0.4rem;
+}
+.review-list li { font-size: 0.95rem; }

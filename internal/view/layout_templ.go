@@ -42,7 +42,7 @@ func Layout(title string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, " — para</title><link rel=\"stylesheet\" href=\"/static/styles.css\"><script src=\"/static/htmx.min.js\"></script></head><body><nav><a href=\"/\" class=\"brand\">para</a> <a href=\"/today\">Today</a> <a href=\"/items?type=project\">Projects</a> <a href=\"/items?type=area\">Areas</a> <a href=\"/items?type=resource\">Resources</a> <a href=\"/review\">Review</a> <a href=\"/search\">Search</a></nav><main>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, " — para</title><link rel=\"stylesheet\" href=\"/static/styles.css\"><script src=\"/static/htmx.min.js\"></script></head><body><nav><a href=\"/\" class=\"brand\">para</a> <a href=\"/daily\">Today</a> <a href=\"/items?type=project\">Projects</a> <a href=\"/items?type=area\">Areas</a> <a href=\"/items?type=resource\">Resources</a> <a href=\"/review\">Review</a> <a href=\"/search\">Search</a><form action=\"/search\" method=\"get\" class=\"nav-search\" role=\"search\"><input type=\"search\" name=\"q\" placeholder=\"Search…\" aria-label=\"Search\"></form></nav><main>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
