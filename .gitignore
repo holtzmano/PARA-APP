@@ -1,0 +1,16 @@
+﻿# build artifacts
+*.exe
+para
+
+# database files
+*.db
+*.db-shm
+*.db-wal
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# editor stuff
+.vscode/
+.idea/
