@@ -7,7 +7,26 @@
       "Bash(./para.exe)",
       "Bash(curl -s http://localhost:8080/)",
       "Bash(taskkill //F //IM para.exe)",
-      "Bash(where sqlite3 *)"
+      "Bash(where sqlite3 *)",
+      "Bash(curl -fsSL https://unpkg.com/htmx.org@2.0.4/dist/htmx.min.js -o /c/Users/oren.holtzman/para/static/htmx.min.js)",
+      "Bash(go install *)",
+      "Bash(go env *)",
+      "Bash(/c/Users/oren.holtzman/go/bin/templ.exe generate *)",
+      "Bash(curl -sI http://localhost:8080/)",
+      "Bash(curl -s http://localhost:8080/items)",
+      "Bash(curl -s -i -X POST -d 'type=project&title=Ship PARA v1&status=active&due_date=2026-06-01&content_md=initial scaffold' http://localhost:8080/items)",
+      "Bash(curl -s -i -X POST -d 'type=project&title=Write blog post&status=someday&content_md=' http://localhost:8080/items)",
+      "Bash(curl -s -i -X POST -d 'type=area&title=Health&status=active' http://localhost:8080/items)",
+      "Bash(curl -s -i -o /dev/null -w \"%{http_code} %{redirect_url}\\\\n\" http://localhost:8080/)",
+      "Bash(curl -s \"http://localhost:8080/items?type=project\")",
+      "Bash(curl -s http://localhost:8080/items/1)",
+      "Bash(curl -s -i -X POST -d 'title=Ship PARA v1 \\(renamed\\)&status=active&due_date=2026-06-15&content_md=initial scaffold&parent_id=' http://localhost:8080/items/1)",
+      "Bash(curl -s -X POST -H \"HX-Request: true\" http://localhost:8080/items/2/archive)",
+      "Bash(curl -s -X POST -H \"HX-Request: true\" http://localhost:8080/items/2/restore)",
+      "Bash(curl -s -i -X POST http://localhost:8080/items/2/archive)",
+      "Bash(curl -s -i -o /dev/null -w \"%{http_code}\\\\n\" -X POST http://localhost:8080/items/999/archive)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code} %{size_download} bytes\\\\n\" http://localhost:8080/static/styles.css)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code} %{size_download} bytes\\\\n\" http://localhost:8080/static/htmx.min.js)"
     ]
   }
 }

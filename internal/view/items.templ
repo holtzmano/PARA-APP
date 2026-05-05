@@ -1,0 +1,191 @@
+package view
+
+import (
+	"fmt"
+	"strings"
+
+	"para/internal/store"
+)
+
+templ ItemsList(items []store.Item, filter store.ListFilter) {
+	@Layout(headingFor(filter)) {
+		<header class="page-header">
+			<h1>{ headingFor(filter) }</h1>
+			<a href="/items/new" class="button-link">New item</a>
+		</header>
+		if len(items) == 0 {
+			<p class="muted">No items.</p>
+		} else {
+			<table>
+				<thead>
+					<tr>
+						<th>Title</th>
+						<th>Type</th>
+						<th>Status</th>
+						<th>Due</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					for _, it := range items {
+						@ItemRow(it)
+					}
+				</tbody>
+			</table>
+		}
+	}
+}
+
+templ ItemRow(it store.Item) {
+	<tr id={ rowID(it.ID) } class={ rowClass(it) }>
+		<td><a href={ templ.SafeURL(fmt.Sprintf("/items/%d", it.ID)) }>{ it.Title }</a></td>
+		<td>{ it.Type }</td>
+		<td>{ it.Status }</td>
+		<td>
+			if it.DueDate.Valid {
+				{ it.DueDate.String }
+			}
+		</td>
+		<td class="row-actions">
+			if it.IsArchived() {
+				<button
+					hx-post={ fmt.Sprintf("/items/%d/restore", it.ID) }
+					hx-target={ "#" + rowID(it.ID) }
+					hx-swap="outerHTML">
+					restore
+				</button>
+			} else {
+				<button
+					hx-post={ fmt.Sprintf("/items/%d/archive", it.ID) }
+					hx-target={ "#" + rowID(it.ID) }
+					hx-swap="outerHTML">
+					archive
+				</button>
+			}
+		</td>
+	</tr>
+}
+
+templ ItemForm(it *store.Item, action string, heading string) {
+	@Layout(heading) {
+		<header class="page-header">
+			<h1>{ heading }</h1>
+			if it != nil && it.ID > 0 && !it.IsArchived() {
+				<form method="post" action={ templ.SafeURL(fmt.Sprintf("/items/%d/archive", it.ID)) }>
+					<button type="submit" class="link-button">Archive</button>
+				</form>
+			}
+			if it != nil && it.IsArchived() {
+				<form method="post" action={ templ.SafeURL(fmt.Sprintf("/items/%d/restore", it.ID)) }>
+					<button type="submit" class="link-button">Restore</button>
+				</form>
+			}
+		</header>
+		<form method="post" action={ templ.SafeURL(action) } class="item-form">
+			<label>
+				<span>Type</span>
+				if it != nil && it.ID > 0 {
+					<input type="text" value={ it.Type } readonly/>
+				} else {
+					<select name="type" required>
+						for _, t := range store.ItemTypes {
+							if it != nil && it.Type == t {
+								<option value={ t } selected>{ t }</option>
+							} else {
+								<option value={ t }>{ t }</option>
+							}
+						}
+					</select>
+				}
+			</label>
+			<label>
+				<span>Title</span>
+				<input type="text" name="title" required value={ titleVal(it) }/>
+			</label>
+			<label>
+				<span>Status</span>
+				<select name="status" required>
+					for _, st := range store.ItemStatuses {
+						if it != nil && it.Status == st {
+							<option value={ st } selected>{ st }</option>
+						} else {
+							<option value={ st }>{ st }</option>
+						}
+					}
+				</select>
+			</label>
+			<label>
+				<span>Due date</span>
+				<input type="date" name="due_date" value={ dueVal(it) }/>
+			</label>
+			<label>
+				<span>Parent ID</span>
+				<input type="number" name="parent_id" min="1" value={ parentVal(it) }/>
+			</label>
+			<label>
+				<span>Content (markdown)</span>
+				<textarea name="content_md" rows="12">{ contentVal(it) }</textarea>
+			</label>
+			<button type="submit">Save</button>
+		</form>
+		if it != nil && it.ID > 0 {
+			<aside class="meta">
+				<span>id #{ fmt.Sprintf("%d", it.ID) }</span>
+				<span>created { it.CreatedAt }</span>
+				<span>updated { it.UpdatedAt }</span>
+				if it.IsArchived() {
+					<span>archived { it.ArchivedAt.String }</span>
+				}
+			</aside>
+		}
+	}
+}
+
+func rowID(id int64) string { return fmt.Sprintf("item-row-%d", id) }
+
+func rowClass(it store.Item) string {
+	if it.IsArchived() {
+		return "archived"
+	}
+	return ""
+}
+
+func headingFor(f store.ListFilter) string {
+	switch strings.ToLower(f.Type) {
+	case "project":
+		return "Projects"
+	case "area":
+		return "Areas"
+	case "resource":
+		return "Resources"
+	}
+	return "Items"
+}
+
+func titleVal(it *store.Item) string {
+	if it == nil {
+		return ""
+	}
+	return it.Title
+}
+
+func dueVal(it *store.Item) string {
+	if it == nil || !it.DueDate.Valid {
+		return ""
+	}
+	return it.DueDate.String
+}
+
+func parentVal(it *store.Item) string {
+	if it == nil || !it.ParentID.Valid {
+		return ""
+	}
+	return fmt.Sprintf("%d", it.ParentID.Int64)
+}
+
+func contentVal(it *store.Item) string {
+	if it == nil {
+		return ""
+	}
+	return it.ContentMD
+}
