@@ -3,7 +3,11 @@
     "allow": [
       "Bash(go get *)",
       "Bash(go build *)",
-      "Bash(go mod *)"
+      "Bash(go mod *)",
+      "Bash(./para.exe)",
+      "Bash(curl -s http://localhost:8080/)",
+      "Bash(taskkill //F //IM para.exe)",
+      "Bash(where sqlite3 *)"
     ]
   }
 }

@@ -5,9 +5,19 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
+
+	"para/internal/store"
 )
 
 func main() {
+	const dbPath = "./para.db"
+	s, err := store.Open(dbPath)
+	if err != nil {
+		log.Fatalf("open store: %v", err)
+	}
+	defer s.Close()
+	log.Printf("database opened at %s", dbPath)
+
 	r := chi.NewRouter()
 
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
